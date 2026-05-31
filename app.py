@@ -3,13 +3,16 @@ import warnings
 warnings.filterwarnings('ignore')
 
 import streamlit as st
+import tempfile
+
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_openai import ChatOpenAI
-from langchain.chains import RetrievalQA
-import tempfile
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.runnables import RunnablePassthrough
 
 st.set_page_config(page_title="Chat with PDF")
 st.title("Chat with PDF")
@@ -46,17 +49,29 @@ if uploaded_file and api_key:
     )
 
     retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
-    qa_chain = RetrievalQA.from_chain_type(
-        llm=llm,
-        chain_type="stuff",
-        retriever=retriever
+
+    prompt = ChatPromptTemplate.from_template("""
+Answer the question based only on the following context:
+{context}
+
+Question: {question}
+""")
+
+    def format_docs(docs):
+        return "\n\n".join(doc.page_content for doc in docs)
+
+    chain = (
+        {"context": retriever | format_docs, "question": RunnablePassthrough()}
+        | prompt
+        | llm
+        | StrOutputParser()
     )
 
     question = st.text_input("Ask a question about your PDF")
     if question:
         with st.spinner("Thinking..."):
-            response = qa_chain.invoke(question)
-        st.write("**Answer:**", response["result"])
+            answer = chain.invoke(question)
+        st.write("**Answer:**", answer)
 
 else:
     if not api_key:
