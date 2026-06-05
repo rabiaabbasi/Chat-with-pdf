@@ -20,7 +20,7 @@ questions in plain English and get instant answers.
 5. Your question retrieves the most relevant chunks
 6. LLM generates a grounded answer from those chunks
 
-![alt text](image.png)
+![Architecture](assets/diagram.png)
 
 ## Tech Stackgit add .
 - LangChain — orchestration
