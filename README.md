@@ -22,7 +22,7 @@ questions in plain English and get instant answers.
 
 ![alt text](image.png)
 
-## Tech Stack
+## Tech Stackgit add .
 - LangChain — orchestration
 - HuggingFace sentence-transformers — embeddings
 - FAISS — vector similarity search
