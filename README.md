@@ -1,23 +1,41 @@
-# Chat with PDF - RAG System
+# Chat with PDF — RAG System
 
-A RAG (Retrieval Augmented Generation) system that lets you 
-chat with any PDF document using LangChain and free LLMs.
+Chat with any PDF document using natural language. 
+Built with LangChain, HuggingFace embeddings, and FAISS.
 
-## How it works
-1. Load a PDF document
-2. Split into chunks
-3. Create embeddings using HuggingFace
-4. Store in FAISS vector database
-5. Ask questions and get answers using LLM via OpenRouter
+## Demo
+![App Demo](assets/image.png)
+[🔗 Live Demo](https://rabia-chat-with-pdf.streamlit.app/)
 
-## Libraries Used
-- LangChain
-- HuggingFace Embeddings
-- FAISS
-- OpenRouter (free LLM)
+## The Problem
+Reading long PDFs and finding specific information 
+is slow and painful. This app lets you just ask 
+questions in plain English and get instant answers.
 
-## How to run
-1. Clone the repo
-2. Install requirements: pip install -r requirements.txt
-3. Add your OpenRouter API key in .env file
-4. Run chat_with_pdf.ipynb
+## How It Works
+1. Upload any PDF
+2. Document splits into chunks automatically
+3. HuggingFace creates semantic embeddings
+4. FAISS indexes them for fast similarity search
+5. Your question retrieves the most relevant chunks
+6. LLM generates a grounded answer from those chunks
+
+PDF → Text Chunks → Embeddings → FAISS → [User Question] → LLM → Answer
+
+## Tech Stack
+- LangChain — orchestration
+- HuggingFace sentence-transformers — embeddings
+- FAISS — vector similarity search
+- OpenRouter — free LLM API access
+- Streamlit — frontend
+
+## What I Learned
+- How RAG differs from pure LLM generation
+- Why chunking strategy matters for answer quality
+- How vector similarity search works under the hood
+
+## Run Locally
+git clone [repo]
+pip install -r requirements.txt
+# Add OPENROUTER_API_KEY to .env
+streamlit run app.py
