@@ -20,7 +20,7 @@ questions in plain English and get instant answers.
 5. Your question retrieves the most relevant chunks
 6. LLM generates a grounded answer from those chunks
 
-PDF → Text Chunks → Embeddings → FAISS → [User Question] → LLM → Answer
+![alt text](image.png)
 
 ## Tech Stack
 - LangChain — orchestration
